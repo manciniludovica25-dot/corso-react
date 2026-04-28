@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #fdfcf9;
+    color: #111;
+    line-height: 1.6;
+    padding: 30px;
+}
+
+.contenitore {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+/* Barra di ricerca */
+.barra-ricerca,
+.barra-filtro {
+    border-bottom: 1px solid #ccc;
+    padding: 14px 0;
+    margin-bottom: 16px;
+}
+
+.gruppo-ricerca {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.campo-ricerca {
+    flex: 1;
+    min-width: 220px;
+}
+
+.campo-ricerca label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.campo-ricerca input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    padding: 6px 2px;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.campo-ricerca input:focus {
+    outline: none;
+    border-bottom: 2px solid #000;
+}
+
+.messaggio-validazione {
+    font-size: 13px;
+    color: #b00;
+    margin-top: 4px;
+    min-height: 18px;
+}
+
+button {
+    background: none;
+    border: 1px solid #000;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* Filtro */
+.barra-filtro {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.barra-filtro select {
+    border: 1px solid #000;
+    background: transparent;
+    padding: 4px 8px;
+    font-family: inherit;
+}
+
+/* Schede post */
+.scheda-post {
+    padding: 18px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.scheda-post h3 {
+    font-size: 22px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.scheda-post p {
+    font-size: 15px;
+    color: #333;
+}
+
+.scheda-post button {
+    margin-top: 8px;
+    font-size: 13px;
+    padding: 4px 10px;
+}
+
+/* Paginazione */
+.barra-risultati-basso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+}
+
+.controlli-pagina {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.badge-totale {
+    background: #f0f0f0;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Overlay dettagli */
+.sfondo-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+}
+
+.sfondo-overlay.visibile {
+    display: block;
+}
+
+.finestra-overlay {
+    background: #fff;
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #000;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.pulsante-chiudi {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.finestra-overlay h2 {
+    font-size: 26px;
+    margin-bottom: 12px;
+}
+
+.corpo-post {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.singolo-commento {
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.singolo-commento strong {
+    font-weight: bold;
+}
+
+.singolo-commento small {
+    color: #666;
+}
+
+/* Messaggi */
+.messaggio-info {
+    text-align: center;
+    font-style: italic;
+    padding: 30px;
+    color: #666;
+}
+
+.messaggio-errore {
+    border: 1px solid #000;
+    padding: 10px;
+    background: #fafafa;
+    margin-bottom: 10px;
+}
+
+.messaggio-successo {
+    border: 1px solid #000;
+    padding: 10px;
+    background: #f4f4f4;
+    margin-bottom: 10px;
+}
+
+/* Loader */
+.loader {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #000;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Evidenziazione */
+mark {
+    background-color: #fef9c3;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+/* Stato bottoni */
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}

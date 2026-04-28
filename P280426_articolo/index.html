@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articoli Con Ricerca</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="contenitore">
+        <h1>📝 Articoli</h1>
+
+        <!-- Barra di ricerca -->
+        <div class="barra-ricerca">
+            <div class="gruppo-ricerca">
+                <div class="campo-ricerca" style="flex:2">
+                    <label>🔍 Cerca nei post</label>
+                    <input type="text" id="campoRicerca" placeholder="Cerca per titolo o contenuto...">
+                    <div id="validazioneRicerca" class="messaggio-validazione"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <button id="pulsanteCerca">🔍 Cerca</button>
+                    <button id="pulsanteReset">🗑️ Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtro per utente -->
+        <div class="barra-filtro">
+            <label>Filtra per utente:</label>
+            <select id="selettoreUtente">
+                <option value="">Tutti</option>
+            </select>
+            <button id="pulsanteFiltra">Applica filtro</button>
+        </div>
+
+        <!-- Area messaggi -->
+        <div id="areaMessaggi"></div>
+
+        <!-- Contenitore post -->
+        <div id="contenitorePost"></div>
+
+        <!-- Barra paginazione -->
+        <div id="barraRisultatiBasso" class="barra-risultati-basso">
+            <div class="controlli-pagina" id="controlliPagina">
+                <select id="selettoreLimite">
+                    <option value="5">5 per pagina</option>
+                    <option value="10" selected>10 per pagina</option>
+                    <option value="15">15 per pagina</option>
+                    <option value="20">20 per pagina</option>
+                    <option value="25">25 per pagina</option>
+                </select>
+                <button id="btnPrec">← Precedente</button>
+                <span id="infoPagina">Pagina 1 di 1</span>
+                <button id="btnSucc">Successiva →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay dettagli -->
+    <div id="sfondoOverlay" class="sfondo-overlay">
+        <div class="finestra-overlay">
+            <span class="pulsante-chiudi" id="pulsanteChiudiOverlay">&times;</span>
+            <div id="contenutoOverlay"></div>
+        </div>
+    </div>
+
+    <script src="src/articolo.js"></script>
+</body>
+
+</html>
