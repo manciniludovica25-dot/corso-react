@@ -24,11 +24,5 @@ npm run dev
 npm start
 ```
 
-## Struttura (esempio)
-- `lezioni/` → codice visto a lezione
-- `esercizi/` → esercizi svolti/da svolgere
-- `progetti/` → mini-progetti o progetto finale
-- `appunti/` → note e link
-
 ## Note
 Se trovi errori o vuoi migliorare qualcosa, apri una issue o una pull request.
