@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Calcolatrice</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Calcolatrice</h1>
+    
+    <form id="calcolaForm">
+        <input type="number" id="numero1Form" placeholder="Primo numero">
+        <input type="number" id="numero2Form" placeholder="Secondo numero">
+        
+        <select id="operazioneForm">
+            <option value="">Scegli operazione</option>
+            <option value="somma">Somma (+)</option>
+            <option value="sottrazione">Sottrazione (-)</option>
+            <option value="moltiplicazione">Moltiplicazione (×)</option>
+            <option value="divisione">Divisione (÷)</option>
+        </select>
+        
+        <button type="submit">Calcola</button>
+    </form>
+    
+    <h2>Risultato: <span id="risultato"></span></h2>
+    
+    <script src="src/calculator.js"></script>
+</body>
+</html>
