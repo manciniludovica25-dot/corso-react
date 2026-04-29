@@ -1,6 +1,6 @@
 "use strict";
 const API = "https://jsonplaceholder.typicode.com";
-// ─── Stato globale ────────────────────────────────────────────────────────────
+//  Stato globale
 const stato = {
     mappaUtenti: new Map(),
     tuttiPost: [],
@@ -10,29 +10,23 @@ const stato = {
     idUtenteFiltrato: null,
     ricercaAttiva: ""
 };
-// ─── Flag sviluppo ─────────────────────────────────────────────────────────────
-const IS_DEV = true;
-// ─── Utilità dev ──────────────────────────────────────────────────────────────
-const delayCasuale = () => {
-    if (!IS_DEV)
-        return Promise.resolve();
-    return new Promise(r => setTimeout(r, Math.random() * 3000 + 1000));
-};
-const simulaErroreServer = () => {
-    if (!IS_DEV)
-        return false;
+//  Utilità dev
+function delayCasuale() {
+    return new Promise(function (r) { setTimeout(r, Math.random() * 3000 + 1000); });
+}
+function simulaErroreServer() {
     return Math.floor(Math.random() * 10) + 1 === 1;
-};
-// ─── Validazione ──────────────────────────────────────────────────────────────
-const validaRicerca = (testo) => {
+}
+//  Validazione 
+function validaRicerca(testo) {
     if (!testo || testo.trim() === "")
         return "⚠️ Il campo di ricerca è obbligatorio.";
     if (testo.trim().length < 3)
         return "⚠️ Inserisci almeno 3 caratteri.";
     return "";
-};
-// ─── UI: loader e messaggi ────────────────────────────────────────────────────
-const mostraLoader = () => {
+}
+//  UI: loader e messaggi
+function mostraLoader() {
     const areaMessaggi = document.getElementById("areaMessaggi");
     const contenitorePost = document.getElementById("contenitorePost");
     const barraRisultati = document.getElementById("barraRisultatiBasso");
@@ -47,18 +41,18 @@ const mostraLoader = () => {
     }
     if (barraRisultati)
         barraRisultati.style.display = "none";
-};
-const mostraMessaggio = (html, tipo = "info") => {
+}
+function mostraMessaggio(html, tipo = "info") {
     const areaMessaggi = document.getElementById("areaMessaggi");
     if (!areaMessaggi)
         return;
     const classi = { info: "messaggio-info", errore: "messaggio-errore", successo: "messaggio-successo" };
     areaMessaggi.innerHTML = `<div class="${classi[tipo]}">${html}</div>`;
     if (tipo === "successo") {
-        setTimeout(() => { areaMessaggi.innerHTML = ""; }, 3000);
+        setTimeout(function () { areaMessaggi.innerHTML = ""; }, 3000);
     }
-};
-const mostraErroreConRetry = (messaggio, retryCallback) => {
+}
+function mostraErroreConRetry(messaggio, retryCallback) {
     const areaMessaggi = document.getElementById("areaMessaggi");
     if (!areaMessaggi)
         return;
@@ -68,47 +62,43 @@ const mostraErroreConRetry = (messaggio, retryCallback) => {
             <p style="margin: 10px 0">${messaggio}</p>
             <button id="retryButton" class="retry-btn">🔄 Riprova</button>
         </div>`;
-    document.getElementById("retryButton")?.addEventListener("click", () => {
+    document.getElementById("retryButton")?.addEventListener("click", function () {
         mostraLoader();
         retryCallback();
     });
-};
-// ─── API: fetch utenti ────────────────────────────────────────────────────────
-const popolaSelettoreUtenti = (utenti) => {
+}
+//  API: fetch utenti 
+function popolaSelettoreUtenti(utenti) {
     const selettoreUtente = document.getElementById("selettoreUtente");
     if (!selettoreUtente)
         return;
     // Mantieni solo l'opzione "Tutti" (primo elemento) e aggiungi gli utenti
     selettoreUtente.innerHTML = '<option value="">👥 Tutti</option>';
     utenti
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach(u => {
+        .sort(function (a, b) { return a.name.localeCompare(b.name); })
+        .forEach(function (u) {
         const option = document.createElement("option");
         option.value = u.id.toString();
         option.textContent = u.name;
         selettoreUtente.appendChild(option);
     });
-};
-const caricaUtenti = async () => {
+}
+async function caricaUtenti() {
     try {
         const response = await fetch(`${API}/users`);
         if (!response.ok)
             throw new Error(`Errore HTTP: ${response.status}`);
         const utenti = await response.json();
-        utenti.forEach(u => stato.mappaUtenti.set(u.id, u));
+        utenti.forEach(function (u) { stato.mappaUtenti.set(u.id, u); });
         popolaSelettoreUtenti(utenti);
     }
     catch (error) {
         console.error("Errore durante il caricamento degli utenti:", error);
         mostraMessaggio("Errore durante il caricamento degli utenti. Riprova.", "errore");
     }
-};
-// ─── API: fetch posts (con cache) ─────────────────────────────────────────────
-/**
- * Recupera i post dall'API, usando la cache locale se disponibile.
- * Unica fonte di verità per il fetch: usata da caricaPost ed eseguiRicerca.
- */
-const fetchPosts = async () => {
+}
+//  API: fetch posts 
+async function fetchPosts() {
     if (stato.tuttiPost.length > 0)
         return stato.tuttiPost;
     const response = await fetch(`${API}/posts`);
@@ -117,10 +107,9 @@ const fetchPosts = async () => {
     const posts = await response.json();
     stato.tuttiPost = posts;
     return posts;
-};
-// ─── Logica filtri ────────────────────────────────────────────────────────────
-// Applica il filtro utente e (opzionalmente) il filtro di ricerca testo a tutti i post. Restituisce la lista filtrata.
-const applicaFiltri = (posts, ricerca) => {
+}
+// Applica il filtro utente. 
+function applicaFiltri(posts, ricerca) {
     let risultati = stato.idUtenteFiltrato
         ? posts.filter(p => p.userId === stato.idUtenteFiltrato)
         : [...posts];
@@ -130,13 +119,9 @@ const applicaFiltri = (posts, ricerca) => {
             p.body.toLowerCase().includes(r));
     }
     return risultati;
-};
-// ─── Caricamento principale post ──────────────────────────────────────────────
-/**
- * Funzione unica per caricare/aggiornare i post a schermo.
- * Gestisce delay simulato, errori server, filtri e paginazione.
- */
-const caricaPost = async () => {
+}
+;
+async function caricaPost() {
     mostraLoader();
     try {
         await delayCasuale();
@@ -162,9 +147,10 @@ const caricaPost = async () => {
         if (barraRisultati)
             barraRisultati.style.display = "none";
     }
-};
-// ─── Ricerca ──────────────────────────────────────────────────────────────────
-const eseguiRicerca = async (testo) => {
+}
+;
+// Ricerca
+async function eseguiRicerca(testo) {
     const errore = validaRicerca(testo);
     const validazioneEl = document.getElementById("validazioneRicerca");
     const campoRicerca = document.getElementById("campoRicerca");
@@ -213,9 +199,10 @@ const eseguiRicerca = async (testo) => {
                 barraRisultati.style.display = "none";
         }
     }
-};
-// ─── Reset ricerca ────────────────────────────────────────────────────────────
-const resetRicerca = () => {
+}
+;
+// Reset ricerca
+function resetRicerca() {
     const campoRicerca = document.getElementById("campoRicerca");
     const validazioneRicerca = document.getElementById("validazioneRicerca");
     const areaMessaggi = document.getElementById("areaMessaggi");
@@ -228,9 +215,9 @@ const resetRicerca = () => {
     stato.ricercaAttiva = "";
     stato.paginaCorrente = 1;
     caricaPost();
-};
-// ─── Rendering post ───────────────────────────────────────────────────────────
-const aggiornaBarraRisultati = (totale) => {
+}
+;
+function aggiornaBarraRisultati(totale) {
     const totalePagine = Math.ceil(totale / stato.elementiPerPagina);
     const infoPagina = document.getElementById("infoPagina");
     const btnPrec = document.getElementById("btnPrec");
@@ -247,8 +234,9 @@ const aggiornaBarraRisultati = (totale) => {
         btnSucc.disabled = totale === 0 || stato.paginaCorrente === totalePagine;
     if (barraRisultati)
         barraRisultati.style.display = "flex";
-};
-const visualizzaRisultati = (posts, termine) => {
+}
+;
+function visualizzaRisultati(posts, termine) {
     const contenitorePost = document.getElementById("contenitorePost");
     if (!contenitorePost)
         return;
@@ -288,28 +276,32 @@ const visualizzaRisultati = (posts, termine) => {
             mostraDettaglio(parseInt(target.dataset.id));
         }
     };
-};
-// ─── Paginazione ──────────────────────────────────────────────────────────────
-const scrollInCima = () => {
+}
+;
+// Paginazione 
+function scrollInCima() {
     document.getElementById("contenitorePost")?.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-const paginaPrecedente = () => {
+}
+;
+function paginaPrecedente() {
     if (stato.paginaCorrente > 1) {
         stato.paginaCorrente--;
         visualizzaRisultati(stato.articoliCorrente, stato.ricercaAttiva);
         scrollInCima();
     }
-};
-const paginaSuccessiva = () => {
+}
+;
+function paginaSuccessiva() {
     const totalePagine = Math.ceil(stato.articoliCorrente.length / stato.elementiPerPagina);
     if (stato.paginaCorrente < totalePagine) {
         stato.paginaCorrente++;
         visualizzaRisultati(stato.articoliCorrente, stato.ricercaAttiva);
         scrollInCima();
     }
-};
-// ─── Dettaglio post (overlay) ─────────────────────────────────────────────────
-const mostraDettaglio = async (id) => {
+}
+;
+// Dettaglio post (overlay) 
+async function mostraDettaglio(id) {
     const sfondoOverlay = document.getElementById("sfondoOverlay");
     const contenutoOverlay = document.getElementById("contenutoOverlay");
     if (!sfondoOverlay || !contenutoOverlay) {
@@ -342,9 +334,9 @@ const mostraDettaglio = async (id) => {
     catch {
         contenutoOverlay.innerHTML = '<p class="messaggio-errore">❌ Errore nel caricamento del dettaglio.</p>';
     }
-};
-// ─── Collegamento eventi (una sola volta all'init) ────────────────────────────
-const collegaEventi = () => {
+}
+;
+function collegaEventi() {
     // --- Ricerca ---
     const campoRicerca = document.getElementById("campoRicerca");
     const pulsanteCerca = document.getElementById("pulsanteCerca");
@@ -402,9 +394,10 @@ const collegaEventi = () => {
     pulsanteChiudi?.addEventListener("click", () => {
         sfondoOverlay?.classList.remove("visibile");
     });
-};
-// ─── Inizializzazione ─────────────────────────────────────────────────────────
-const inizializza = async () => {
+}
+;
+// Inizializzazione 
+async function inizializza() {
     console.log("🚀 Inizializzazione applicazione...");
     mostraLoader();
     try {
@@ -418,5 +411,6 @@ const inizializza = async () => {
         console.error("❌ Errore durante l'inizializzazione:", error);
         mostraMessaggio("Errore durante l'inizializzazione dell'applicazione. Ricarica la pagina.", "errore");
     }
-};
+}
+;
 inizializza();

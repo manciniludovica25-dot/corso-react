@@ -1,6 +1,6 @@
 const API: string = "https://jsonplaceholder.typicode.com";
 
-// ─── Interfacce ───────────────────────────────────────────────────────────────
+// Interfacce
 
 interface Users {
     id: number;
@@ -33,7 +33,7 @@ interface Stato {
     ricercaAttiva: string;
 }
 
-// ─── Stato globale ────────────────────────────────────────────────────────────
+//  Stato globale
 
 const stato: Stato = {
     mappaUtenti: new Map(),
@@ -45,29 +45,29 @@ const stato: Stato = {
     ricercaAttiva: ""
 };
 
-// ─── Utilità dev ──────────────────────────────────────────────────────────────
+//  Utilità dev
 
-const delayCasuale = (): Promise<void> => {
-    return new Promise(r => setTimeout(r, Math.random() * 3000 + 1000));
-};
+function delayCasuale(): Promise<void> {
+    return new Promise(function(r) { setTimeout(r, Math.random() * 3000 + 1000); });
+}
 
-const simulaErroreServer = (): boolean => {
+function simulaErroreServer(): boolean {
     return Math.floor(Math.random() * 10) + 1 === 1;
-};
+}
 
-// ─── Validazione ──────────────────────────────────────────────────────────────
+//  Validazione 
 
-const validaRicerca = (testo: string): string => {
+function validaRicerca(testo: string): string {
     if (!testo || testo.trim() === "")
         return "⚠️ Il campo di ricerca è obbligatorio.";
     if (testo.trim().length < 3)
         return "⚠️ Inserisci almeno 3 caratteri.";
     return "";
-};
+}
 
-// ─── UI: loader e messaggi ────────────────────────────────────────────────────
+//  UI: loader e messaggi
 
-const mostraLoader = (): void => {
+function mostraLoader(): void {
     const areaMessaggi = document.getElementById("areaMessaggi");
     const contenitorePost = document.getElementById("contenitorePost");
     const barraRisultati = document.getElementById("barraRisultatiBasso");
@@ -81,9 +81,9 @@ const mostraLoader = (): void => {
             </div>`;
     }
     if (barraRisultati) barraRisultati.style.display = "none";
-};
+}
 
-const mostraMessaggio = (html: string, tipo: "info" | "errore" | "successo" = "info"): void => {
+function mostraMessaggio(html: string, tipo: "info" | "errore" | "successo" = "info"): void {
     const areaMessaggi = document.getElementById("areaMessaggi") as HTMLDivElement | null;
     if (!areaMessaggi) return;
 
@@ -91,11 +91,11 @@ const mostraMessaggio = (html: string, tipo: "info" | "errore" | "successo" = "i
     areaMessaggi.innerHTML = `<div class="${classi[tipo]}">${html}</div>`;
 
     if (tipo === "successo") {
-        setTimeout(() => { areaMessaggi.innerHTML = ""; }, 3000);
+        setTimeout(function() { areaMessaggi.innerHTML = ""; }, 3000);
     }
-};
+}
 
-const mostraErroreConRetry = (messaggio: string, retryCallback: () => void): void => {
+function mostraErroreConRetry(messaggio: string, retryCallback: () => void): void {
     const areaMessaggi = document.getElementById("areaMessaggi");
     if (!areaMessaggi) return;
 
@@ -106,46 +106,47 @@ const mostraErroreConRetry = (messaggio: string, retryCallback: () => void): voi
             <button id="retryButton" class="retry-btn">🔄 Riprova</button>
         </div>`;
 
-    document.getElementById("retryButton")?.addEventListener("click", () => {
+    document.getElementById("retryButton")?.addEventListener("click", function() {
         mostraLoader();
         retryCallback();
     });
-};
+}
 
-// ─── API: fetch utenti ────────────────────────────────────────────────────────
 
-const popolaSelettoreUtenti = (utenti: Users[]): void => {
+//  API: fetch utenti 
+
+function popolaSelettoreUtenti(utenti: Users[]): void {
     const selettoreUtente = document.getElementById("selettoreUtente") as HTMLSelectElement | null;
     if (!selettoreUtente) return;
 
     // Mantieni solo l'opzione "Tutti" (primo elemento) e aggiungi gli utenti
     selettoreUtente.innerHTML = '<option value="">👥 Tutti</option>';
     utenti
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach(u => {
+        .sort(function(a, b) { return a.name.localeCompare(b.name); })
+        .forEach(function(u) {
             const option = document.createElement("option");
             option.value = u.id.toString();
             option.textContent = u.name;
             selettoreUtente.appendChild(option);
         });
-};
+}
 
-const caricaUtenti = async (): Promise<void> => {
+async function caricaUtenti(): Promise<void> {
     try {
         const response = await fetch(`${API}/users`);
         if (!response.ok) throw new Error(`Errore HTTP: ${response.status}`);
         const utenti: Users[] = await response.json();
-        utenti.forEach(u => stato.mappaUtenti.set(u.id, u));
+        utenti.forEach(function(u) { stato.mappaUtenti.set(u.id, u); });
         popolaSelettoreUtenti(utenti);
     } catch (error) {
         console.error("Errore durante il caricamento degli utenti:", error);
         mostraMessaggio("Errore durante il caricamento degli utenti. Riprova.", "errore");
     }
-};
+}
 
-// ─── API: fetch posts  ─────────────────────────────────────────────
+//  API: fetch posts 
 
-const fetchPosts = async (): Promise<Posts[]> => {
+async function fetchPosts(): Promise<Posts[]> {
     if (stato.tuttiPost.length > 0) return stato.tuttiPost;
 
     const response = await fetch(`${API}/posts`);
@@ -154,10 +155,10 @@ const fetchPosts = async (): Promise<Posts[]> => {
     const posts: Posts[] = await response.json();
     stato.tuttiPost = posts;
     return posts;
-};
+}
 
- // Applica il filtro utente e (opzionalmente) il filtro di ricerca testo a tutti i post. Restituisce la lista filtrata.
-const applicaFiltri = (posts: Posts[], ricerca: string): Posts[] => {
+// Applica il filtro utente. 
+function applicaFiltri(posts: Posts[], ricerca: string): Posts[] {
     let risultati = stato.idUtenteFiltrato
         ? posts.filter(p => p.userId === stato.idUtenteFiltrato)
         : [...posts];
@@ -173,7 +174,7 @@ const applicaFiltri = (posts: Posts[], ricerca: string): Posts[] => {
     return risultati;
 };
 
-const caricaPost = async (): Promise<void> => {
+async function caricaPost(): Promise<void> {
     mostraLoader();
     try {
         await delayCasuale();
@@ -205,9 +206,9 @@ const caricaPost = async (): Promise<void> => {
     }
 };
 
-// ─── Ricerca ──────────────────────────────────────────────────────────────────
+// Ricerca
 
-const eseguiRicerca = async (testo: string): Promise<void> => {
+async function eseguiRicerca(testo: string): Promise<void> {
     const errore = validaRicerca(testo);
     const validazioneEl = document.getElementById("validazioneRicerca");
     const campoRicerca = document.getElementById("campoRicerca") as HTMLInputElement | null;
@@ -260,9 +261,9 @@ const eseguiRicerca = async (testo: string): Promise<void> => {
     }
 };
 
-// ─── Reset ricerca ────────────────────────────────────────────────────────────
+// Reset ricerca
 
-const resetRicerca = (): void => {
+function resetRicerca(): void {
     const campoRicerca = document.getElementById("campoRicerca") as HTMLInputElement | null;
     const validazioneRicerca = document.getElementById("validazioneRicerca");
     const areaMessaggi = document.getElementById("areaMessaggi");
@@ -277,7 +278,7 @@ const resetRicerca = (): void => {
     caricaPost();
 };
 
-const aggiornaBarraRisultati = (totale: number): void => {
+function aggiornaBarraRisultati(totale: number): void {
     const totalePagine = Math.ceil(totale / stato.elementiPerPagina);
 
     const infoPagina = document.getElementById("infoPagina");
@@ -296,7 +297,7 @@ const aggiornaBarraRisultati = (totale: number): void => {
     if (barraRisultati) barraRisultati.style.display = "flex";
 };
 
-const visualizzaRisultati = (posts: Posts[], termine: string): void => {
+function visualizzaRisultati(posts: Posts[], termine: string): void {
     const contenitorePost = document.getElementById("contenitorePost");
     if (!contenitorePost) return;
 
@@ -343,13 +344,13 @@ const visualizzaRisultati = (posts: Posts[], termine: string): void => {
     };
 };
 
-// ─── Paginazione ──────────────────────────────────────────────────────────────
+// Paginazione 
 
-const scrollInCima = (): void => {
+function scrollInCima(): void {
     document.getElementById("contenitorePost")?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
-const paginaPrecedente = (): void => {
+function paginaPrecedente(): void {
     if (stato.paginaCorrente > 1) {
         stato.paginaCorrente--;
         visualizzaRisultati(stato.articoliCorrente, stato.ricercaAttiva);
@@ -357,7 +358,7 @@ const paginaPrecedente = (): void => {
     }
 };
 
-const paginaSuccessiva = (): void => {
+function paginaSuccessiva(): void {
     const totalePagine = Math.ceil(stato.articoliCorrente.length / stato.elementiPerPagina);
     if (stato.paginaCorrente < totalePagine) {
         stato.paginaCorrente++;
@@ -366,9 +367,9 @@ const paginaSuccessiva = (): void => {
     }
 };
 
-// ─── Dettaglio post (overlay) ─────────────────────────────────────────────────
+// Dettaglio post (overlay) 
 
-const mostraDettaglio = async (id: number): Promise<void> => {
+async function mostraDettaglio(id: number): Promise<void> {
     const sfondoOverlay = document.getElementById("sfondoOverlay");
     const contenutoOverlay = document.getElementById("contenutoOverlay");
 
@@ -405,7 +406,7 @@ const mostraDettaglio = async (id: number): Promise<void> => {
     }
 };
 
-const collegaEventi = (): void => {
+function collegaEventi(): void {
     // --- Ricerca ---
     const campoRicerca = document.getElementById("campoRicerca") as HTMLInputElement | null;
     const pulsanteCerca = document.getElementById("pulsanteCerca") as HTMLButtonElement | null;
@@ -475,9 +476,9 @@ const collegaEventi = (): void => {
     });
 };
 
-// ─── Inizializzazione ─────────────────────────────────────────────────────────
+// Inizializzazione 
 
-const inizializza = async (): Promise<void> => {
+async function inizializza(): Promise<void> {
     console.log("🚀 Inizializzazione applicazione...");
     mostraLoader();
 
