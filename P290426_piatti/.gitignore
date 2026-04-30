@@ -15,17 +15,18 @@ Thumbs.db
 .env
 .env.*
 
-# file JSON
+# file JSON (eccetto config)
 *.json
 !package.json
+!package-lock.json
 !tsconfig.json
 
-# Build output
+# Build output - ignora tutto dist tranne i .js necessari
 dist/
-build/
-out/
-.js.map
+!dist/app.js
+!dist/menu.js
+!dist/types.js
 
-#js e ts in più
-app2.js
+# file extra
 app2.ts
+app2.js

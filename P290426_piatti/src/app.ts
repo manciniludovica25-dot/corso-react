@@ -161,17 +161,27 @@ function inviaOrdine(): void {
   const inputCognome = document.getElementById("cognome") as HTMLInputElement;
   const inputRagioneSociale = document.getElementById("ragioneSociale") as HTMLInputElement;
   const selectTipoAzienda = document.getElementById("tipoAzienda") as HTMLSelectElement;
+  const selectCategoria = document.getElementById("categoria") as HTMLSelectElement;
   const selectPiatti = document.getElementById("piatti") as HTMLSelectElement;
   const containerOrdini = document.getElementById("ordini") as HTMLDivElement;
 
   const tipoCliente = selectTipoCliente.value as 'persona' | 'azienda';
-  const piattiSelezionati = Array.from(selectPiatti.selectedOptions).map(option => option.value);
+  const categoriaScelta = selectCategoria.value;
+  const piattoScelto = selectPiatti.value;
 
-  // Validazione piatti
-  if (piattiSelezionati.length === 0) {
-    alert("Seleziona almeno un piatto");
-    return;
-  }
+  // Validazione categoria
+ if (!categoriaScelta || categoriaScelta === "") {
+  alert("Scegli la portata");
+  return;
+}
+
+  // Validazione piatto
+  if (!piattoScelto || piattoScelto === "") {
+  alert("Scegli un piatto");
+  return;
+}
+
+  const piattiSelezionati = [piattoScelto];
 
   //creazione cliente con validazione
   let cliente: Cliente;
@@ -209,7 +219,7 @@ function inviaOrdine(): void {
   container.innerHTML = `
     <b>Ordine #${id}</b><br>
     Cliente: ${clienteFormattato}<br>
-    Piatti: ${piattiSelezionati.join(", ")}<br>
+    Portata: ${categoriaScelta} - Piatto: ${piattoScelto}<br>
     Stato: <span id="stato-${id}" class="stato-inviato">Inviato</span><br><br>
   `;
 
@@ -231,16 +241,56 @@ function inviaOrdine(): void {
   });
 }
 
+
 // inizializza il menu nel select al caricamento della pagina
-function inizializzaMenu(): void {
-  const select = document.getElementById("piatti") as HTMLSelectElement;
+function filtraPiattiPerCategoria(categoria: string): string[] {
+  if (!categoria) return [];
   
-  menuRistorante.forEach(piatto => {
+  return menuRistorante
+    .filter(piatto => piatto.categoria === categoria)
+    .map(piatto => piatto.nome);
+}
+
+// Aggiorna il select dei piatti in base alla categoria scelta
+function aggiornaMenuPiatti(): void {
+  const selectCategoria = document.getElementById("categoria") as HTMLSelectElement;
+  const selectPiatti = document.getElementById("piatti") as HTMLSelectElement;
+  
+  const categoria = selectCategoria.value;
+  
+  // Pulisci il select dei piatti
+  selectPiatti.innerHTML = '';
+  
+  if (!categoria) {
+    // Nessuna categoria selezionata
     const opt = document.createElement("option");
-    opt.value = piatto.nome;
-    opt.textContent = piatto.nome;
-    select.appendChild(opt);
+    opt.value = "";
+    opt.textContent = "-- Prima scegli la categoria --";
+    selectPiatti.appendChild(opt);
+    selectPiatti.disabled = true;
+    return;
+  }
+  
+  // Abilita il select
+  selectPiatti.disabled = false;
+  
+  // Aggiungi opzione predefinita
+  const optDefault = document.createElement("option");
+  optDefault.value = "";
+  optDefault.textContent = "-- Seleziona un piatto --";
+  selectPiatti.appendChild(optDefault);
+  
+  // Filtra e aggiungi i piatti
+  const piattiFiltrati = filtraPiattiPerCategoria(categoria);
+  
+  piattiFiltrati.forEach(nomePiatto => {
+    const opt = document.createElement("option");
+    opt.value = nomePiatto;
+    opt.textContent = nomePiatto;
+    selectPiatti.appendChild(opt);
   });
+  
+  console.log(`🍽️ Categoria: ${categoria} - Piatti trovati: ${piattiFiltrati.length}`);
 }
 
 // toggle form cliente (persona vs azienda) con addEventListener sul select del tipo cliente
@@ -262,9 +312,6 @@ function adattaFormAlTipoCliente(): void {
 
 //esegue al caricamento della pagina per inizializzare menu, form e collegare eventi
 document.addEventListener('DOMContentLoaded', () => {
-  // Inizializza il menu
-  inizializzaMenu();
-  
   // Inizializza lo stato del form cliente
   adattaFormAlTipoCliente();
   
@@ -275,6 +322,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Collega il select "Tipo Cliente" con addEventListener
   const selectTipoCliente = document.getElementById("tipoCliente") as HTMLSelectElement;
   selectTipoCliente.addEventListener('change', adattaFormAlTipoCliente);
+  
+  // Collega il select "Categoria" con addEventListener
+  const selectCategoria = document.getElementById("categoria") as HTMLSelectElement;
+  selectCategoria.addEventListener('change', aggiornaMenuPiatti);
+  
+  // Inizializza lo stato del select piatti (disabilitato)
+  const selectPiatti = document.getElementById("piatti") as HTMLSelectElement;
+  selectPiatti.disabled = true;
   
   console.log('🍽️ Sistema ordini ristorante inizializzato');
   console.log('Menu caricato:', getNomiPiatti().length, 'piatti disponibili');

@@ -8,54 +8,58 @@
 </head>
 
 <body>
-    <div class="container">
-        <h2>Ordini Ristorante</h2>
+    <h2>Ordini Ristorante</h2>
 
-        <!-- TIPO CLIENTE -->
-        <div class="card">
-            <label for="tipoCliente">Tipo Cliente</label>
-            <select id="tipoCliente">
-                <option value="persona">Persona</option>
-                <option value="azienda">Azienda</option>
-            </select>
-        </div>
+    <label>Tipo Cliente:
+        <select id="tipoCliente">
+            <option value="persona">Persona</option>
+            <option value="azienda">Azienda</option>
+        </select>
+    </label><br><br>
 
-        <!-- FORM PERSONA -->
-        <div id="formPersona" class="card">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" placeholder="Nome">
 
-            <label for="cognome">Cognome</label>
-            <input type="text" id="cognome" placeholder="Cognome">
-        </div>
+    <div id="formPersona">
+        <label>Nome: <input type="text" id="nome" placeholder="Nome"></label><br>
+        <label>Cognome: <input type="text" id="cognome" placeholder="Cognome"></label><br><br>
+    </div>
 
-        <!-- FORM AZIENDA -->
-        <div id="formAzienda" class="card" style="display:none;">
-            <label for="ragioneSociale">Ragione Sociale</label>
-            <input type="text" id="ragioneSociale" placeholder="Ragione sociale">
 
-            <label for="tipoAzienda">Tipo Azienda</label>
+    <div id="formAzienda" style="display:none;">
+        <label>Ragione Sociale: <input type="text" id="ragioneSociale" placeholder="Ragione sociale"></label><br>
+        <label>Tipo Azienda:
             <select id="tipoAzienda">
                 <option value="SaS">SaS</option>
                 <option value="Srl">Srl</option>
                 <option value="SpA">SpA</option>
             </select>
-        </div>
-
-        <!-- PIATTI -->
-        <div class="card">
-            <label for="piatti">Piatti</label>
-            <select id="piatti" multiple size="5"></select>
-        </div>
-
-        <button id="btnInvia">Invia ordine</button>
-
-        <hr>
-
-        <div id="ordini"></div>
+        </label><br><br>
     </div>
 
-    <script type="module" src="src/app.js"></script>
+
+    <label>Scegli la portata:
+        <select id="categoria">
+            <option value="">-- Seleziona categoria --</option>
+            <option value="primo">Primo</option>
+            <option value="secondo">Secondo</option>
+            <option value="contorno">Contorno</option>
+            <option value="dessert">Dessert</option>
+        </select>
+    </label><br><br>
+
+
+    <label>Scegli il piatto:
+        <select id="piatti" disabled>
+            <option value="">-- Prima scegli la categoria --</option>
+        </select>
+    </label><br><br>
+
+    <button id="btnInvia">Invia ordine</button>
+
+    <hr>
+    <div id="ordini"></div>
+
+
+    <script type="module" src="dist/app.js"></script>
 </body>
 
 </html>
