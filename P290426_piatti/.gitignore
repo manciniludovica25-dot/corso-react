@@ -22,7 +22,9 @@ Thumbs.db
 !tsconfig.json
 
 # Build output - ignora tutto dist tranne i .js necessari
-dist/
+dist/*
+!dist/
+!dist/*.js
 !dist/app.js
 !dist/menu.js
 !dist/types.js
