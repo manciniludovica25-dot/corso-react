@@ -24,8 +24,7 @@ Thumbs.db
 dist/
 build/
 out/
-*.js
-*.js.map
+.js.map
 
 #js e ts in più
 app2.js
