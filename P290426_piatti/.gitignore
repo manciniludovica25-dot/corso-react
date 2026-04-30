@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# env
+.env
+.env.*
+
+# file JSON
+*.json
+!package.json
+!tsconfig.json
+
+# Build output
+dist/
+build/
+out/
+*.js
+*.js.map
+
+#js e ts in più
+app2.js
+app2.ts
