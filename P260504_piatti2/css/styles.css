@@ -1,0 +1,298 @@
+/* ============ VARIABILI ============ */
+:root {
+    --vinaccia: #722f37;
+    --vinaccia-scuro: #5a1e26;
+    --vinaccia-chiaro: #8b3a44;
+    --vinaccia-tenue: #f5e6e8;
+    --grigio-chiaro: #f0f0f0;
+    --grigio-medio: #d4d4d4;
+    --grigio-scuro: #666666;
+    --bianco: #ffffff;
+    --testo: #333333;
+    --ombra: 0 4px 15px rgba(114, 47, 55, 0.1);
+}
+
+/* ============ BASE ============ */
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--grigio-chiaro);
+    padding: 40px;
+    margin: 0;
+    color: var(--testo);
+    line-height: 1.6;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color: var(--vinaccia);
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--vinaccia);
+    border-radius: 2px;
+}
+
+/* ============ LABEL ============ */
+label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: var(--vinaccia-scuro);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============ INPUT & SELECT ============ */
+input,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 2px solid var(--grigio-medio);
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    background: var(--bianco);
+    color: var(--testo);
+}
+
+input:hover,
+select:hover {
+    border-color: var(--vinaccia-chiaro);
+}
+
+input:focus,
+select:focus {
+    border-color: var(--vinaccia);
+    box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.15);
+    background: var(--vinaccia-tenue);
+}
+
+/* Select disabilitato */
+select:disabled {
+    background: var(--grigio-chiaro);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ============ BUTTON ============ */
+button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    background: var(--vinaccia);
+    color: var(--bianco);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background: var(--vinaccia-scuro);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(114, 47, 55, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: var(--grigio-medio);
+    color: var(--grigio-scuro);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ============ CONTAINER ORDINI ============ */
+#ordini {
+    margin-top: 30px;
+    max-width: 600px;
+}
+
+#ordini > div {
+    background: var(--bianco);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--ombra);
+    border-left: 5px solid var(--vinaccia);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#ordini > div:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 8px 25px rgba(114, 47, 55, 0.15);
+}
+
+#ordini > div b {
+    color: var(--vinaccia);
+    font-size: 16px;
+}
+
+/* ============ STATI ORDINE ============ */
+.stato-inviato {
+    color: var(--vinaccia);
+    font-weight: 600;
+    padding: 3px 10px;
+    background: var(--vinaccia-tenue);
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.stato-preparazione {
+    color: #b8860b;
+    font-weight: 600;
+    padding: 3px 10px;
+    background: #fff8e1;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.stato-pronto {
+    color: #2e7d32;
+    font-weight: 600;
+    padding: 3px 10px;
+    background: #e8f5e9;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.stato-fallito {
+    color: #c62828;
+    font-weight: 600;
+    padding: 3px 10px;
+    background: #ffebee;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+/* ============ BOTTONE RETRY ============ */
+#ordini button {
+    margin-left: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+    background: #c62828;
+    border-radius: 20px;
+}
+
+#ordini button:hover {
+    background: #b71c1c;
+    transform: scale(1.05);
+}
+
+/* ============ FORM CLIENTE ============ */
+#formPersona,
+#formAzienda {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var(--bianco);
+    border-radius: 10px;
+    box-shadow: var(--ombra);
+    border: 1px solid var(--grigio-medio);
+    transition: all 0.3s ease;
+}
+
+#formPersona:hover,
+#formAzienda:hover {
+    border-color: var(--vinaccia-chiaro);
+    box-shadow: 0 6px 20px rgba(114, 47, 55, 0.1);
+}
+
+/* ============ DIVISORE ============ */
+hr {
+    border: none;
+    border-top: 2px solid var(--vinaccia-scuro);
+    margin: 40px 0;
+    position: relative;
+    overflow: visible;
+}
+
+hr::after {
+    content: '🍷';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--grigio-chiaro);
+    padding: 0 12px;
+    font-size: 22px;
+    color: var(--vinaccia);
+    line-height: 1;
+}
+
+/* ============ SMALL ============ */
+small {
+    color: var(--grigio-scuro);
+    display: block;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+    
+    #ordini > div {
+        padding: 15px;
+    }
+}
+
+/* ============ ANIMAZIONI ============ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#ordini > div {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--grigio-chiaro);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--vinaccia-chiaro);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--vinaccia);
+}

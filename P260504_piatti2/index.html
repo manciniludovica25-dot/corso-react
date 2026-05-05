@@ -1,0 +1,72 @@
+<!-- Partendo dal progetto del ristorante implementare le funzionalità di modifica parziale dell'ordine non ancora completato per i campi nome del cliente e del piatto,
+usando i type utility "Partial" e “Pick” per i campi del form e "Omit" per l'id dell'ordine per il passaggio dei parametri all'utility che riceve i dati da aggiornare,
+resettando lo stato come “inviato” e facendo ripartire il ciclo di vita dell'ordine, e la funzionalità di cancellazione LOGICA, tramite campo isActive, di un ordine, che
+prevede anche la compilazione di un campo di tipo testo "reason" (motivo). Il campo id dovrà essere in sola lettura. Per le chiamate a liste, dettaglio, creazione, modifica e
+cancellazione simulate un delay di 1000-2500 millisecondi come se stesse chiamando un vero back-end. Gestire tutto in un apposito servizio -->
+
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ordini Ristorante - TypeScript Edition</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <h2>🍽️ Ordini Ristorante</h2>
+
+    <div class="form-container">
+        <label>Tipo Cliente:
+            <select id="tipoCliente">
+                <option value="persona">Persona</option>
+                <option value="azienda">Azienda</option>
+            </select>
+        </label><br><br>
+
+        <div id="formPersona">
+            <label>Nome: <input type="text" id="nome" placeholder="Nome"></label><br>
+            <label>Cognome: <input type="text" id="cognome" placeholder="Cognome"></label><br><br>
+        </div>
+
+        <div id="formAzienda" style="display:none;">
+            <label>Ragione Sociale: <input type="text" id="ragioneSociale" placeholder="Ragione sociale"></label><br>
+            <label>Tipo Azienda:
+                <select id="tipoAzienda">
+                    <option value="SaS">SaS</option>
+                    <option value="Srl">Srl</option>
+                    <option value="SpA">SpA</option>
+                </select>
+            </label><br><br>
+        </div>
+
+        <label>Scegli la portata:
+            <select id="categoria">
+                <option value="">-- Seleziona categoria --</option>
+                <option value="primo">Primo</option>
+                <option value="secondo">Secondo</option>
+                <option value="contorno">Contorno</option>
+                <option value="dessert">Dessert</option>
+            </select>
+        </label><br><br>
+
+        <label>Scegli il piatto:
+            <select id="piatti" disabled>
+                <option value="">-- Prima scegli la categoria --</option>
+            </select>
+        </label><br><br>
+
+        <button id="btnInvia">📝 Invia ordine</button>
+    </div>
+
+    <hr>
+
+    <h3>📋 Ordini Attivi</h3>
+    <div id="ordini"></div>
+
+  
+    <script type="module" src="src/app.js"></script>
+</body>
+
+</html>
