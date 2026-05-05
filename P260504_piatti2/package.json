@@ -1,16 +1,16 @@
 {
   "name": "p260504_piatti2",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "npx serve ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Sistema ordini ristorante TypeScript",
   "devDependencies": {
-    "install": "^0.13.0",
-    "typescript": "^6.0.3"
+    "typescript": "^5.9.3"
   }
 }

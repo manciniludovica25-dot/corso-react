@@ -20,6 +20,7 @@ Thumbs.db
 !package.json
 !package-lock.json
 !tsconfig.json
+!vercel.json
 
 # TypeScript build output - ignora tutto in dist/
 dist/*
