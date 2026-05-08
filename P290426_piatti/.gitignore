@@ -28,7 +28,3 @@ dist/*
 !dist/app.js
 !dist/menu.js
 !dist/types.js
-
-# file extra
-app2.ts
-app2.js

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pannello Admin</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div id="app"></div>
+
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal">
+      <div class="modal__header">
+        <h3 class="modal__title" id="modal-title">Dettaglio</h3>
+        <button class="modal__close" id="modal-close-btn" title="Chiudi">✕</button>
+      </div>
+      <div id="modal-body"></div>
+      <div class="modal__footer">
+        <button class="btn" id="modal-cancel-btn">Chiudi</button>
+        <button class="btn btn--primary" id="modal-save-btn" style="display:none">Salva</button>
+      </div>
+    </div>
+  </div>
+  <div class="confirm-popup" id="confirm-popup">
+    <div class="confirm-box">
+      <h3 class="confirm-box__title" id="confirm-title"></h3>
+      <p class="confirm-box__message" id="confirm-message"></p>
+      <div class="confirm-box__actions">
+        <button class="btn" id="confirm-cancel-btn">Annulla</button>
+        <button class="btn btn--primary" id="confirm-btn">Conferma</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/pages/admin/index.ts"></script>
+</body>
+</html>

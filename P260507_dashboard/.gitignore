@@ -1,0 +1,19 @@
+# dipendenze
+node_modules/
+
+# log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# file di sistema
+.DS_Store
+Thumbs.db
+
+# variabili d'ambiente
+.env
+.env.*
+
+# output di build (Vite / TypeScript)
+dist/

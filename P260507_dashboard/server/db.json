@@ -1,0 +1,119 @@
+{
+  "posts": [
+    {
+      "tipo": "articolo",
+      "id": 1,
+      "utenteId": 1,
+      "titolo": "Benvenuto nel Blog Admin",
+      "corpo": "Questo è il primo articolo di esempio. Puoi modificarlo, eliminarlo o aggiungerne di nuovi.",
+      "creatoIl": "2024-01-15",
+      "isActive": true
+    },
+    {
+      "tipo": "articolo",
+      "id": 2,
+      "utenteId": 2,
+      "titolo": "Come usare questa dashboard",
+      "corpo": "La dashboard admin permette la gestione completa di articoli, commenti, utenti e ruoli con soft-delete e cestino.",
+      "creatoIl": "2024-01-20",
+      "isActive": true
+    },
+    {
+      "tipo": "articolo",
+      "id": 3,
+      "utenteId": 1,
+      "titolo": "Articolo nel cestino",
+      "corpo": "Questo articolo è stato spostato nel cestino e può essere ripristinato.",
+      "creatoIl": "2024-01-22",
+      "isActive": false
+    }
+  ],
+  "comments": [
+    {
+      "tipo": "commento",
+      "id": 1,
+      "postId": 1,
+      "nome": "Mario Rossi",
+      "email": "mario.rossi@example.com",
+      "corpo": "Ottimo articolo! Molto utile per iniziare.",
+      "isActive": true
+    },
+    {
+      "tipo": "commento",
+      "id": 2,
+      "postId": 1,
+      "nome": "Lucia Bianchi",
+      "email": "lucia.bianchi@example.com",
+      "corpo": "Concordo, ben scritto e chiaro.",
+      "isActive": true
+    },
+    {
+      "tipo": "commento",
+      "id": 3,
+      "postId": 2,
+      "nome": "Giorgio Verdi",
+      "email": "giorgio.verdi@example.com",
+      "corpo": "Commento nel cestino.",
+      "isActive": false
+    }
+  ],
+  "users": [
+    {
+      "tipo": "utente",
+      "id": 1,
+      "nome": "Admin Principale",
+      "username": "admin",
+      "email": "admin@example.com",
+      "ruoloId": 1,
+      "isActive": true
+    },
+    {
+      "tipo": "utente",
+      "id": 2,
+      "nome": "Editor Blog",
+      "username": "editor",
+      "email": "editor@example.com",
+      "ruoloId": 2,
+      "isActive": true
+    },
+    {
+      "tipo": "utente",
+      "id": 3,
+      "nome": "Utente Eliminato",
+      "username": "deleted_user",
+      "email": "deleted@example.com",
+      "ruoloId": 3,
+      "isActive": false
+    }
+  ],
+  "roles": [
+    {
+      "tipo": "ruolo",
+      "id": 1,
+      "nome": "Amministratore",
+      "descrizione": "Accesso completo a tutte le funzionalità della piattaforma.",
+      "isActive": true
+    },
+    {
+      "tipo": "ruolo",
+      "id": 2,
+      "nome": "Editor",
+      "descrizione": "Può creare e modificare articoli e commenti.",
+      "isActive": true
+    },
+    {
+      "tipo": "ruolo",
+      "id": 3,
+      "nome": "Lettore",
+      "descrizione": "Può solo leggere i contenuti pubblicati.",
+      "isActive": true
+    },
+    {
+      "tipo": "ruolo",
+      "id": 4,
+      "nome": "Ruolo Deprecato",
+      "descrizione": "Ruolo non più in uso, nel cestino.",
+      "isActive": false
+    }
+  ]
+}

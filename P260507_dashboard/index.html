@@ -1,0 +1,37 @@
+<!-- Fare il refactor del mini progetto Javascript fatto alla lezione 9 trasformando il progetto da Javascript a Typescript
+
+separando bene la logica in file separati per types/inferfaces, servizi API, helpers, componenti pagina, ecc…
+
+(si consiglia di seguire la struttura delle cartelle e dei file forniti in data odierna) ed evitando il più possibile
+
+codice duplicato, non tipizzato correttamente e con nomi oppure con logiche poco chiare. -->
+
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Vista Pubblica</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Modale dettaglio post -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal">
+      <div class="modal__header">
+        <h3 class="modal__title" id="modal-title">Dettaglio</h3>
+        <button class="modal__close" id="modal-close-btn" title="Chiudi">✕</button>
+      </div>
+      <div id="modal-body"></div>
+      <div class="modal__footer">
+        <button class="btn" id="modal-cancel-btn">Chiudi</button>
+        <button class="btn btn--primary" id="modal-save-btn" style="display:none">Salva</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/pages/public/index.ts"></script>
+</body>
+</html>
