@@ -1,5 +1,5 @@
 const API_PUBBLICA = "https://jsonplaceholder.typicode.com";
-const API_ADMIN = "http://localhost:3000";
+const API_ADMIN = "https://dashboard-backend-o3f0.onrender.com";
 
 export type MetodoHttp = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
