@@ -65,20 +65,23 @@ text
 git clone <url-del-tuo-repo>
 cd nome-progetto
 npm install
+```
 
 Lanciare l’app
 Avvia il backend mock (json-server)
 
-bash
+```bash
 npm run server
 Il finto backend sarà accessibile su http://localhost:3000.
+```
 
 Servire il frontend
 Puoi usare un semplice server statico, ad esempio:
 
-bash
+```bash
 npx serve pubblica
 oppure, se hai configurato un bundler, npm run dev.
+```
 
 Apri http://localhost:3000 (o la porta indicata) per la vista pubblica,
 http://localhost:3000/admin.html per il pannello admin.
