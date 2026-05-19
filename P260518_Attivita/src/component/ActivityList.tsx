@@ -9,256 +9,228 @@ import type { Activity } from "../types/Activity.types";
 import type { FilterType } from "../types/Pagination.types";
 
 type Props = {
-    selectedId: number | null;
-    setSelectedId: React.Dispatch<
-        React.SetStateAction<number | null>
-    >;
-    onToggleCompleted: (id: number) => void;
+  selectedId: number | null;
+  setSelectedId: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
+  onToggleCompleted: (
+    id: number,
+  ) => Promise<void>;
+  reloadKey: number;
 };
 
-
-//component che si occupa di mostrare la lista delle attività, con filtri e impaginazione. Gesrisce lo stato di caricamento, errori e empty state.
+// Component che si occupa di mostrare
+// la lista delle attività, con filtri
+// e impaginazione.
 function ActivityList({
-    selectedId,
-    setSelectedId,
-    onToggleCompleted,
+  selectedId,
+  setSelectedId,
+  onToggleCompleted,
+  reloadKey,
 }: Readonly<Props>) {
-    const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] =
+    useState<Activity[]>([]);
 
-    const [errorMessage, setErrorMessage] =
-        useState<string | null>(null);
+  const [errorMessage, setErrorMessage] =
+    useState<string | null>(null);
 
-    const [isLoading, setIsLoading] =
-        useState(false);
+  const [isLoading, setIsLoading] =
+    useState(false);
 
-    const [filter, setFilter] =
-        useState<FilterType>("all");
+  const [filter, setFilter] =
+    useState<FilterType>("all");
 
-    const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-    const [itemsPerPage, setItemsPerPage] =
-        useState(4);
+  const [itemsPerPage, setItemsPerPage] =
+    useState(4);
 
-    const [totalPages, setTotalPages] =
-        useState(1);
+  const [totalPages, setTotalPages] =
+    useState(1);
 
-    const getFilterLabel = (
-        filterType: FilterType,
-    ): string => {
-        switch (filterType) {
-            case "all":
-                return "Tutte";
+  const [totalItems, setTotalItems] =
+    useState(0);
 
-            case "completed":
-                return "Completate";
+  const getFilterLabel = (
+    filterType: FilterType,
+  ): string => {
+    switch (filterType) {
+      case "all":
+        return "Tutte";
 
-            case "notCompleted":
-                return "Non completate";
+      case "completed":
+        return "Completate";
 
-            default:
-                return "";
-        }
-    };
+      case "notCompleted":
+        return "Non completate";
 
-    // Fetch delle attività ogni volta che cambiano pagina, filtro o numero di elementi per pagina.
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setIsLoading(true);
+      default:
+        return "";
+    }
+  };
 
-                setErrorMessage(null);
+  // Fetch delle attività quando cambiano:
+  // pagina, filtro o numero elementi.
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
 
-                const response =
-                    await fetchActivities({
-                        page,
-                        itemsPerPage,
-                        filter,
-                    });
+        setErrorMessage(null);
 
-                setActivities(response.items);
+        const response =
+          await fetchActivities({
+            page,
+            itemsPerPage,
+            filter,
+          });
 
-                setTotalPages(
-                    response.totalPages,
-                );
-            } catch (err: unknown) {
-                setErrorMessage(
-                    err instanceof Error
-                        ? err.message
-                        : "Errore sconosciuto.",
-                );
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        setActivities(response.items);
 
-        void fetchData();
-    }, [page, itemsPerPage, filter]);
-
-    const handleFilterChange = (
-        newFilter: FilterType,
-    ) => {
-        setFilter(newFilter);
-
-        setPage(1);
-    };
-
-    const handlePageChange = (
-        newPage: number,
-    ) => {
-        setPage(newPage);
-    };
-
-    const handleItemsPerPageChange = (
-        newItemsPerPage: number,
-    ) => {
-        setItemsPerPage(newItemsPerPage);
-
-        setPage(1);
-    };
-
-    const handleLocalToggleCompleted = (
-        id: number,
-    ) => {
-        setActivities(prevActivities =>
-            prevActivities.map(activity =>
-                activity.id === id
-                    ? {
-                          ...activity,
-                          isCompleted:
-                              !activity.isCompleted,
-                      }
-                    : activity,
-            ),
+        setTotalPages(
+          response.totalPages,
         );
 
-        onToggleCompleted(id);
+        setTotalItems(
+          response.totalItems,
+        );
+      } catch (err: unknown) {
+        setErrorMessage(
+          err instanceof Error
+            ? err.message
+            : "Errore sconosciuto.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    const isEmpty =
-        !isLoading &&
-        !errorMessage &&
-        activities.length === 0;
+    void fetchData();
+  }, [
+    page,
+    itemsPerPage,
+    filter,
+    reloadKey,
+  ]);
 
-    const hasActivities =
-        !isLoading &&
-        !errorMessage &&
-        activities.length > 0;
+  const handleFilterChange = (
+    newFilter: FilterType,
+  ) => {
+    setFilter(newFilter);
 
-    return (
-        <div className="activity-list">
-            <div className="activity-list__filters">
-                {(
-                    [
-                        "all",
-                        "completed",
-                        "notCompleted",
-                    ] as FilterType[]
-                ).map(filterTask => (
-                    <button
-                        key={filterTask}
-                        className={`activity-list__filter-btn${
-                            filter === filterTask
-                                ? " activity-list__filter-btn--active"
-                                : ""
-                        }`}
-                        onClick={() =>
-                            handleFilterChange(
-                                filterTask,
-                            )
-                        }
-                        disabled={isLoading}
-                    >
-                        {getFilterLabel(
-                            filterTask,
-                        )}
-                    </button>
-                ))}
-            </div>
+    setPage(1);
+  };
 
-            {isLoading && (
-                <div className="activity-list__feedback activity-list__feedback--loading">
-                    <div
-                        className="activity-list__spinner"
-                        aria-hidden="true"
-                    />
+  const handlePageChange = (
+    newPage: number,
+  ) => {
+    setPage(newPage);
+  };
 
-                    <p>Caricamento attività…</p>
-                </div>
-            )}
+  const handleItemsPerPageChange = (
+    newItemsPerPage: number,
+  ) => {
+    setItemsPerPage(newItemsPerPage);
 
-            {errorMessage && (
-                <div className="activity-list__feedback activity-list__feedback--error">
-                    <p>⚠️ {errorMessage}</p>
+    setPage(1);
+  };
 
-                    <button
-                        className="activity-list__retry-btn"
-                        onClick={() => {
-                            setErrorMessage(null);
+  const isEmpty =
+    !isLoading &&
+    !errorMessage &&
+    activities.length === 0;
 
-                            setIsLoading(true);
+  const hasActivities =
+    !isLoading &&
+    !errorMessage &&
+    activities.length > 0;
 
-                            setTimeout(() => {
-                                setIsLoading(false);
-                            }, 300);
-                        }}
-                    >
-                        Riprova
-                    </button>
-                </div>
-            )}
+  return (
+    <div className="activity-list">
+      <div className="activity-list__filters">
+        {(
+          [
+            "all",
+            "completed",
+            "notCompleted",
+          ] as FilterType[]
+        ).map((filterTask) => (
+          <button
+            key={filterTask}
+            className={`activity-list__filter-btn${
+              filter === filterTask
+                ? " activity-list__filter-btn--active"
+                : ""
+            }`}
+            onClick={() =>
+              handleFilterChange(filterTask)
+            }
+            disabled={isLoading}
+          >
+            {getFilterLabel(filterTask)}
+          </button>
+        ))}
+      </div>
 
-            {isEmpty && (
-                <div className="activity-list__feedback activity-list__feedback--empty">
-                    <p>
-                        Nessuna attività trovata per
-                        il filtro selezionato.
-                    </p>
-                </div>
-            )}
+      <p className="activity-list__count">
+        Totale attività: {totalItems}
+      </p>
 
-            {hasActivities && (
-                <>
-                    <div className="activity-list__grid">
-                        {activities.map(
-                            activity => (
-                                <ActivityRow
-                                    key={
-                                        activity.id
-                                    }
-                                    activity={
-                                        activity
-                                    }
-                                    selectedId={
-                                        selectedId
-                                    }
-                                    setSelectedId={
-                                        setSelectedId
-                                    }
-                                    onToggleCompleted={
-                                        handleLocalToggleCompleted
-                                    }
-                                />
-                            ),
-                        )}
-                    </div>
+      {isLoading && (
+        <div className="activity-list__feedback activity-list__feedback--loading">
+          <div
+            className="activity-list__spinner"
+            aria-hidden="true"
+          />
 
-                    <Pagination
-                        currentPage={page}
-                        totalPages={totalPages}
-                        itemsPerPage={
-                            itemsPerPage
-                        }
-                        onPageChange={
-                            handlePageChange
-                        }
-                        onItemsPerPageChange={
-                            handleItemsPerPageChange
-                        }
-                    />
-                </>
-            )}
+          <p>Caricamento attività…</p>
         </div>
-    );
+      )}
+
+      {errorMessage && (
+        <div className="activity-list__feedback activity-list__feedback--error">
+          <p>⚠️ {errorMessage}</p>
+        </div>
+      )}
+
+      {isEmpty && (
+        <div className="activity-list__feedback activity-list__feedback--empty">
+          <p>
+            Nessuna attività trovata per
+            il filtro selezionato.
+          </p>
+        </div>
+      )}
+
+      {hasActivities && (
+        <>
+          <div className="activity-list__grid">
+            {activities.map((activity) => (
+              <ActivityRow
+                key={activity.id}
+                activity={activity}
+                selectedId={selectedId}
+                setSelectedId={setSelectedId}
+                onToggleCompleted={
+                  onToggleCompleted
+                }
+              />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            itemsPerPage={itemsPerPage}
+            onPageChange={handlePageChange}
+            onItemsPerPageChange={
+              handleItemsPerPageChange
+            }
+          />
+        </>
+      )}
+    </div>
+  );
 }
 
 export default ActivityList;

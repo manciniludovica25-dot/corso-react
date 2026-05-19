@@ -3,40 +3,47 @@ import { useState } from "react";
 import ActivityList from "./component/ActivityList";
 
 import {
-    toggleActivityCompleted,
+  toggleActivityCompleted,
 } from "./services/activityService";
 
 function App() {
-    const [selectedId, setSelectedId] =
-        useState<number | null>(null);
+  const [selectedId, setSelectedId] =
+    useState<number | null>(null);
 
-    // Gestisce il cambio di stato di completamento di un'attività. Passato come prop a ActivityList, che lo passa a sua volta ad ActivityRow, 
-    // dove viene chiamato al click del pulsante per cambiare stato.
-    const handleToggleCompleted = async (
-        id: number,
-    ) => {
-        try {
-            await toggleActivityCompleted(id);
-        } catch (error) {
-            console.error(error);
+  const [reloadKey, setReloadKey] =
+    useState(0);
+
+  // Gestisce il cambio di stato
+  // di completamento di un'attività.
+  const handleToggleCompleted = async (
+    id: number,
+  ) => {
+    try {
+      await toggleActivityCompleted(id);
+
+      // forza il refetch della lista
+      setReloadKey((prev) => prev + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <main className="app">
+      <h1 className="app__title">
+        Gestione Attività
+      </h1>
+
+      <ActivityList
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        onToggleCompleted={
+          handleToggleCompleted
         }
-    };
-
-    return (
-        <main className="app">
-            <h1 className="app__title">
-                Gestione Attività
-            </h1>
-
-            <ActivityList
-                selectedId={selectedId}
-                setSelectedId={setSelectedId}
-                onToggleCompleted={
-                    handleToggleCompleted
-                }
-            />
-        </main>
-    );
+        reloadKey={reloadKey}
+      />
+    </main>
+  );
 }
 
 export default App;
