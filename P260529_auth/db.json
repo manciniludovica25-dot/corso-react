@@ -1,0 +1,43 @@
+{
+  "users": [
+    {
+      "email": "mariorossi@prova.it",
+      "password": "$2a$10$lKFq0Nl5ffSpF3xLDwmzQOkgZErhXjVlDPguiYOnlV.S1GII1fWZC",
+      "nome": "Mario",
+      "cognome": "Rossi",
+      "role": "admin",
+      "permissions": [
+        "users-view",
+        "user-details",
+        "user-create",
+        "user-edit",
+        "user-delete"
+      ],
+      "id": 1
+    },
+    {
+      "email": "luigiverdi@prova.it",
+      "password": "$2a$10$caX.3cbOicdIkixLTXp7W.BNzYVDZ0c94fQ1RmCf9BH.t.LJCpSLG",
+      "nome": "Luigi",
+      "cognome": "Verdi",
+      "role": "editor",
+      "permissions": [
+        "users-view",
+        "user-details",
+        "user-edit"
+      ],
+      "id": 2
+    },
+    {
+      "email": "peachrosa@prova.it",
+      "password": "$2a$10$ryCe1UhC4QhDXUO0zQtLCO.H45ZaOwJBzlZcW5Lme9xAV4K68q44q",
+      "nome": "Peach",
+      "cognome": "Rosa",
+      "role": "reader",
+      "permissions": [
+        "user-view"
+      ],
+      "id": 3
+    }
+  ]
+}
