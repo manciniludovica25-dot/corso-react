@@ -1,0 +1,46 @@
+.container {
+  min-height: calc(100vh - 80px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 1rem;
+
+  background: #090909;
+}
+
+.container h1 {
+  font-size: 6rem;
+
+  color: #ff00aa;
+
+  text-shadow:
+    0 0 20px #ff00aa,
+    0 0 40px #ff00aa;
+}
+
+.container h2 {
+  color: #00f5ff;
+}
+
+.container p {
+  color: white;
+}
+
+.button {
+  margin-top: 1rem;
+
+  padding: 1rem 2rem;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  background: #00f5ff;
+
+  color: black;
+
+  font-weight: bold;
+}

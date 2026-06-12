@@ -1,0 +1,41 @@
+.container {
+  min-height: calc(100vh - 80px);
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 1.5rem;
+
+  background: #090909;
+}
+
+.container h1 {
+  color: #ff006e;
+
+  text-shadow:
+    0 0 10px #ff006e,
+    0 0 20px #ff006e;
+}
+
+.container p {
+  color: white;
+}
+
+.button {
+  border: none;
+
+  padding: 1rem 2rem;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  background: #ff006e;
+
+  color: white;
+
+  font-weight: bold;
+}

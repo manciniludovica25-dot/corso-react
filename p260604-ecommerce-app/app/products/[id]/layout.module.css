@@ -1,0 +1,16 @@
+.wrapper {
+  padding: 1rem 2rem;
+}
+
+.backLink {
+  color: #00f5ff;
+
+  text-decoration: none;
+
+  font-weight: 700;
+}
+
+.backLink:hover {
+  text-shadow:
+    0 0 10px #00f5ff;
+}

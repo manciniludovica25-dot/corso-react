@@ -1,0 +1,88 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Mouse Gaming RGB",
+      "price": 19.99,
+      "description": "Mouse gaming professionale RGB con 6 pulsanti programmabili.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTu0yjo6wsWvXSemOYGHHMC8FA5_ghVsdDSQ&s"
+    },
+    {
+      "id": 2,
+      "name": "Tastiera Meccanica",
+      "price": 49.99,
+      "description": "Tastiera meccanica con switch blue e illuminazione RGB.",
+      "image": "https://m.media-amazon.com/images/I/71RdCw-AveL.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Monitor 27 IPS",
+      "price": 199.99,
+      "description": "Monitor gaming 27 pollici IPS 144Hz.",
+      "image": "https://m.media-amazon.com/images/I/71HQ1o3B9-L.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Webcam HD",
+      "price": 24.99,
+      "description": "Webcam Full HD ideale per streaming e videochiamate.",
+      "image": "https://m.media-amazon.com/images/I/61dAkngibfL.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Headset Pro X",
+      "price": 79.99,
+      "description": "Cuffie gaming surround 7.1 con microfono removibile.",
+      "image": "https://m.media-amazon.com/images/I/71JKh8hWiwL.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Mousepad XXL Neon",
+      "price": 14.99,
+      "description": "Mousepad gaming XXL con bordi RGB.",
+      "image": "https://m.media-amazon.com/images/I/71njRxzWFiL._AC_UF350,350_QL80_.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Controller Wireless",
+      "price": 59.99,
+      "description": "Controller wireless compatibile PC e console.",
+      "image": "https://m.media-amazon.com/images/I/61L1EEEsT-L.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Microfono Streaming",
+      "price": 89.99,
+      "description": "Microfono USB professionale per creator e streamer.",
+      "image": "https://ae-pic-a1.aliexpress-media.com/kf/S21fb8e9afeff48e089df4f99e61a96aeT.jpg?has_lang=1&ver=2"
+    },
+    {
+      "id": 9,
+      "name": "Sedia Gaming Titan",
+      "price": 249.99,
+      "description": "Sedia ergonomica gaming con supporto lombare.",
+      "image": "https://media-assets.wired.it/photos/631b0ce529341f0186438a21/16:9/w_1280,c_limit/Secretlab%20Fortnite%20Battle%20Bus%20Edition.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Supporto Monitor RGB",
+      "price": 39.99,
+      "description": "Supporto rialzato con illuminazione RGB integrata.",
+      "image": "https://img.pccomponentes.com/articles/1100/11004543/4239-soporte-monitor-razer-rc21-02320100-r3m1-aluminio-24-27-rgb-hub-usb-antideslizante-especificaciones.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Tastierino Macro Elite",
+      "price": 34.99,
+      "description": "Tastierino programmabile per MMO e produttività.",
+      "image": "https://m.media-amazon.com/images/I/71PL1I-uTRL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Kit Luci Ambient RGB",
+      "price": 29.99,
+      "description": "Illuminazione smart RGB per postazione gaming.",
+      "image": "https://m.media-amazon.com/images/I/61-ab5+RzPS.jpg"
+    }
+  ]
+}
